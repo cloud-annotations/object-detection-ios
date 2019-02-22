@@ -15,14 +15,14 @@ class UIBoundingBox {
     init() {
         shapeLayer = CAShapeLayer()
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineWidth = 4
+        shapeLayer.lineWidth = 3
         shapeLayer.isHidden = true
         
         textLayer = CATextLayer()
         textLayer.isHidden = true
         textLayer.contentsScale = UIScreen.main.scale
         textLayer.fontSize = 14
-        textLayer.font = UIFont(name: "Avenir", size: textLayer.fontSize)
+        textLayer.font = UIFont.systemFont(ofSize: textLayer.fontSize)
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
     }
     
@@ -31,10 +31,10 @@ class UIBoundingBox {
         parent.addSublayer(textLayer)
     }
     
-    func show(frame: CGRect, label: String, color: UIColor, textColor: UIColor = .black) {
+    func show(frame: CGRect, label: String, color: UIColor, textColor: UIColor = .white) {
         CATransaction.setDisableActions(true)
         
-        let path = UIBezierPath(rect: frame)
+        let path = UIBezierPath(roundedRect: frame, cornerRadius: 6.0)
         shapeLayer.path = path.cgPath
         shapeLayer.strokeColor = color.cgColor
         shapeLayer.isHidden = false
@@ -48,11 +48,9 @@ class UIBoundingBox {
             NSAttributedString.Key.font: textLayer.font as Any
         ]
         
-        let textRect = label.boundingRect(with: CGSize(width: 400, height: 100),
-                                          options: .truncatesLastVisibleLine,
-                                          attributes: attributes, context: nil)
-        let textSize = CGSize(width: textRect.width + 12, height: textRect.height)
-        let textOrigin = CGPoint(x: frame.origin.x - 2, y: frame.origin.y - textSize.height)
+        let textRect = label.boundingRect(with: CGSize(width: 400, height: 100), options: .truncatesLastVisibleLine, attributes: attributes, context: nil)
+        let textSize = CGSize(width: textRect.width + 6, height: textRect.height)
+        let textOrigin = CGPoint(x: frame.origin.x, y: frame.origin.y - textSize.height - 3)
         textLayer.frame = CGRect(origin: textOrigin, size: textSize)
     }
     
