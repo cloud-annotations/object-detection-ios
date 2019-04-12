@@ -6,7 +6,7 @@ You can find an in depth walkthrough for training a Core ML model [here](https:/
 `git clone` the repo and `cd` into it by running the following command:
 
 ```bash
-git https://clone github.com/cloud-annotations/object-detection-ios.git
+git clone https://github.com/cloud-annotations/object-detection-ios.git
 cd object-detection-ios
 ```
 
