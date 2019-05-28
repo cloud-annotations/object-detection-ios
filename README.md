@@ -1,12 +1,12 @@
 # Object Detection iOS App
 
-You can find an in depth walkthrough for training a Core ML model [here](https://cloud-annotations.github.io/training/).
+You can find an in depth walkthrough for training a Core ML model [here](https://github.com/cloud-annotations/training/).
 
 ## Setup
 `git clone` the repo and `cd` into it by running the following command:
 
 ```bash
-git clone github.com/cloud-annotations/object-detection-ios.git &&
+git clone https://github.com/cloud-annotations/object-detection-ios.git
 cd object-detection-ios
 ```
 
