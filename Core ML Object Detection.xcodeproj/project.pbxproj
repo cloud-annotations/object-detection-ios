@@ -9,25 +9,25 @@
 /* Begin PBXBuildFile section */
 		234EB2D9221FA7C800B23265 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2D8221FA7C800B23265 /* AppDelegate.swift */; };
 		234EB2DB221FA7C800B23265 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2DA221FA7C800B23265 /* CameraViewController.swift */; };
-		234EB2DE221FA7C800B23265 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 234EB2DC221FA7C800B23265 /* Main.storyboard */; };
 		234EB2E0221FA7CA00B23265 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 234EB2DF221FA7CA00B23265 /* Assets.xcassets */; };
 		234EB2E3221FA7CA00B23265 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 234EB2E1221FA7CA00B23265 /* LaunchScreen.storyboard */; };
 		234EB2EB221FA9E600B23265 /* SSDPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2EA221FA9E600B23265 /* SSDPredictor.swift */; };
 		234EB2ED221FAA0D00B23265 /* UIBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2EC221FAA0D00B23265 /* UIBoundingBox.swift */; };
 		234EB2F0221FAAA600B23265 /* Model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2EF221FAAA600B23265 /* Model.mlmodel */; };
+		23E70283229C05C30021DDB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23E70281229C05C30021DDB8 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		234EB2D5221FA7C800B23265 /* Core ML Object Detection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Core ML Object Detection.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		234EB2D8221FA7C800B23265 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		234EB2DA221FA7C800B23265 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		234EB2DD221FA7C800B23265 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		234EB2DF221FA7CA00B23265 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		234EB2E2221FA7CA00B23265 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		234EB2E4221FA7CA00B23265 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		234EB2EA221FA9E600B23265 /* SSDPredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSDPredictor.swift; sourceTree = "<group>"; };
 		234EB2EC221FAA0D00B23265 /* UIBoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBoundingBox.swift; sourceTree = "<group>"; };
 		234EB2EF221FAAA600B23265 /* Model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Model.mlmodel; sourceTree = "<group>"; };
+		23E70282229C05C30021DDB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 				234EB2EC221FAA0D00B23265 /* UIBoundingBox.swift */,
 				234EB2DA221FA7C800B23265 /* CameraViewController.swift */,
 				234EB2EA221FA9E600B23265 /* SSDPredictor.swift */,
-				234EB2DC221FA7C800B23265 /* Main.storyboard */,
+				23E70281229C05C30021DDB8 /* Main.storyboard */,
 				234EB2DF221FA7CA00B23265 /* Assets.xcassets */,
 				234EB2E1221FA7CA00B23265 /* LaunchScreen.storyboard */,
 				234EB2E4221FA7CA00B23265 /* Info.plist */,
@@ -139,9 +139,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23E70283229C05C30021DDB8 /* Main.storyboard in Resources */,
 				234EB2E3221FA7CA00B23265 /* LaunchScreen.storyboard in Resources */,
 				234EB2E0221FA7CA00B23265 /* Assets.xcassets in Resources */,
-				234EB2DE221FA7C800B23265 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,20 +163,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		234EB2DC221FA7C800B23265 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				234EB2DD221FA7C800B23265 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		234EB2E1221FA7CA00B23265 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				234EB2E2221FA7CA00B23265 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		23E70281229C05C30021DDB8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				23E70282229C05C30021DDB8 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -303,13 +303,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KGK2UJBFUH;
+				DEVELOPMENT_TEAM = SAW3M8QNN9;
 				INFOPLIST_FILE = "Core ML Object Detection/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "bourdakos1.Core-ML-Object-Detection";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.Core-ML-Object-Detection";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -321,13 +321,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KGK2UJBFUH;
+				DEVELOPMENT_TEAM = SAW3M8QNN9;
 				INFOPLIST_FILE = "Core ML Object Detection/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "bourdakos1.Core-ML-Object-Detection";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.Core-ML-Object-Detection";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

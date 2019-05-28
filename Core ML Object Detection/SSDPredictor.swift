@@ -18,7 +18,7 @@ class SSDPredictor {
         classifier = try? VNCoreMLModel(for: model)
     }
     
-    func predict(_ image: CVImageBuffer, completion: @escaping ([VNRecognizedObjectObservation]?, Error?) -> Void) {
+    func predict(_ image: CVImageBuffer, orientation: CGImagePropertyOrientation, completion: @escaping ([VNRecognizedObjectObservation]?, Error?) -> Void) {
         self.semaphore.wait()
         DispatchQueue.global(qos: .userInitiated).async {
             guard let classifier = self.classifier else {
@@ -51,8 +51,7 @@ class SSDPredictor {
                 request.imageCropAndScaleOption = .scaleFill
                 
                 let requestOptions: [VNImageOption: Any] = [:]
-                let orientation = CGImagePropertyOrientation(rawValue: UInt32(EXIFOrientation.rightTop.rawValue))
-                let requestHandler = VNImageRequestHandler(cvPixelBuffer: image, orientation: orientation!, options: requestOptions)
+                let requestHandler = VNImageRequestHandler(cvPixelBuffer: image, orientation: orientation, options: requestOptions)
                 try requestHandler.perform([request])
             } catch {
                 let description = "Failed to process classification request: \(error.localizedDescription)"
@@ -61,24 +60,6 @@ class SSDPredictor {
                 completion(nil, error)
                 return
             }
-        }
-    }
-}
-
-enum EXIFOrientation: Int32 {
-    case topLeft = 1
-    case topRight
-    case bottomRight
-    case bottomLeft
-    case leftTop
-    case rightTop
-    case rightBottom
-    case leftBottom
-    
-    var isReflect:Bool {
-        switch self {
-        case .topLeft,.bottomRight,.rightTop,.leftBottom: return false
-        default: return true
         }
     }
 }
