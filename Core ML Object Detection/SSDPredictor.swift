@@ -19,8 +19,9 @@ class SSDPredictor {
     }
     
     func predict(_ image: CVImageBuffer, orientation: CGImagePropertyOrientation, completion: @escaping ([VNRecognizedObjectObservation]?, Error?) -> Void) {
-        self.semaphore.wait()
+//        self.semaphore.wait()
         DispatchQueue.global(qos: .userInitiated).async {
+//            self.semaphore.wait()
             guard let classifier = self.classifier else {
                 let description = "Predictor failed to load"
                 let userInfo = [NSLocalizedDescriptionKey: description]
@@ -47,7 +48,7 @@ class SSDPredictor {
             }
             
             do {
-                defer { self.semaphore.signal() }
+//                defer { self.semaphore.signal() }
                 request.imageCropAndScaleOption = .scaleFill
                 
                 let requestOptions: [VNImageOption: Any] = [:]

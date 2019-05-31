@@ -31,10 +31,14 @@ class UIBoundingBox {
         parent.addSublayer(textLayer)
     }
     
-    func show(frame: CGRect, label: String, color: UIColor, textColor: UIColor = .white) {
+    func show(frame: CGRect, label: String, color: UIColor, textColor: UIColor = .white, scale: CGFloat = 1.0) {
         CATransaction.setDisableActions(true)
         
-        let path = UIBezierPath(roundedRect: frame, cornerRadius: 6.0)
+        textLayer.fontSize = 20 * (1 / scale)
+        shapeLayer.lineWidth = 3 * (1 / scale)
+        
+        
+        let path = UIBezierPath(roundedRect: frame, cornerRadius: 6.0 * (1 / scale))
         shapeLayer.path = path.cgPath
         shapeLayer.strokeColor = color.cgColor
         shapeLayer.isHidden = false
@@ -45,13 +49,15 @@ class UIBoundingBox {
         textLayer.isHidden = false
         
         let attributes = [
-            NSAttributedString.Key.font: textLayer.font as Any
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20 * (1 / scale))
         ]
         
-        let textRect = label.boundingRect(with: CGSize(width: 400, height: 100), options: .truncatesLastVisibleLine, attributes: attributes, context: nil)
-        let textSize = CGSize(width: textRect.width + 6, height: textRect.height)
-        let textOrigin = CGPoint(x: frame.origin.x, y: frame.origin.y - textSize.height - 3)
+        let textRect = label.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: attributes, context: nil)
+        let textSize = CGSize(width: textRect.width + (6 * (1 / scale)), height: textRect.height)
+        let textOrigin = CGPoint(x: frame.origin.x + frame.size.width - textSize.width, y: frame.origin.y + frame.size.height + (3 * (1 / scale)))
         textLayer.frame = CGRect(origin: textOrigin, size: textSize)
+        
+        textLayer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(.pi / 1.0)))
     }
     
     func hide() {

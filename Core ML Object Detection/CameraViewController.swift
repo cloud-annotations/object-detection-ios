@@ -29,6 +29,7 @@ class CameraViewController: UIViewController {
     var videoSize: CGSize = .zero
     
     let videoDataOutputQueue = DispatchQueue(label: "VideoDataOutput", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
+    let modelInferenceQueue = DispatchQueue(label: "ModelInference", qos: .userInitiated)
     
     lazy var previewLayer: AVCaptureVideoPreviewLayer! = {
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -62,11 +63,6 @@ class CameraViewController: UIViewController {
             videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
             videoOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
         }
-        
-        let captureConnection = videoOutput.connection(with: .video)
-        // Always process the frames
-        captureConnection?.isEnabled = true
-        
         return captureSession
     }()
     
@@ -124,26 +120,6 @@ class CameraViewController: UIViewController {
             self.cameraView.transform = currentTransform
         }
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-////        previewLayer?.frame = view.bounds
-//////        previewLayer?.connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.current.orientation.rawValue)!
-////
-////        do {
-////            try videoDevice!.lockForConfiguration()
-////            let dimensions = CMVideoFormatDescriptionGetDimensions(videoDevice!.activeFormat.formatDescription)
-////            videoSize.width = CGFloat(dimensions.width)
-////            videoSize.height = CGFloat(dimensions.height)
-////            videoDevice!.unlockForConfiguration()
-////        } catch {
-////            print(error)
-////        }
-//    }
-    
-//    override var shouldAutorotate: Bool {
-//        return false
-//    }
 }
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
@@ -153,29 +129,16 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        
-        
         DispatchQueue.main.async {
+            // Get a debug image.
             let ciimage: CIImage = CIImage(cvPixelBuffer: pixelBuffer)
             let context: CIContext = CIContext.init(options: nil)
             let cgImage: CGImage = context.createCGImage(ciimage, from: ciimage.extent)!
             let image: UIImage = UIImage.init(cgImage: cgImage)
             self.debugImage.image = image
-            
-//            let curDeviceOrientation = (self.previewLayer?.connection?.videoOrientation)!
+            //
+        
             let exifOrientation: CGImagePropertyOrientation
-            
-//            switch curDeviceOrientation {
-//            case .portrait:
-//                exifOrientation = .up
-//            case .landscapeRight:
-//                exifOrientation = .down
-//            case .portraitUpsideDown:
-//                exifOrientation = .left
-//            case .landscapeLeft:
-//                exifOrientation = .right
-//            }
-            
             
             switch UIApplication.shared.statusBarOrientation {
             case .portrait:
@@ -187,66 +150,9 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             case .landscapeLeft:
                 exifOrientation = .up
             case .unknown:
-                exifOrientation = .up // default
+                exifOrientation = .up
             }
-//
-//            // mirroring shouldn't matter much here.
-//            switch curDeviceOrientation {
-//            case .portrait:
-//                switch UIApplication.shared.statusBarOrientation {
-//                case .portrait:
-//                    exifOrientation = .right
-//                case .landscapeRight:
-//                    exifOrientation = .down
-//                case .portraitUpsideDown:
-//                    exifOrientation = .left
-//                case .landscapeLeft:
-//                    exifOrientation = .up
-//                case .unknown:
-//                    exifOrientation = .up // default
-//                }
-//            case .landscapeRight:
-//                switch UIApplication.shared.statusBarOrientation {
-//                case .portrait:
-//                    exifOrientation = .right
-//                case .landscapeRight:
-//                    exifOrientation = .down
-//                case .portraitUpsideDown:
-//                    exifOrientation = .left
-//                case .landscapeLeft:
-//                    exifOrientation = .up
-//                case .unknown:
-//                    exifOrientation = .up // default
-//                }
-//            case .portraitUpsideDown:
-//                switch UIApplication.shared.statusBarOrientation {
-//                case .portrait:
-//                    exifOrientation = .right
-//                case .landscapeRight:
-//                    exifOrientation = .down
-//                case .portraitUpsideDown:
-//                    exifOrientation = .left
-//                case .landscapeLeft:
-//                    exifOrientation = .up
-//                case .unknown:
-//                    exifOrientation = .up // default
-//                }
-//            case .landscapeLeft:
-//                switch UIApplication.shared.statusBarOrientation {
-//                case .portrait:
-//                    exifOrientation = .right
-//                case .landscapeRight:
-//                    exifOrientation = .down
-//                case .portraitUpsideDown:
-//                    exifOrientation = .left
-//                case .landscapeLeft:
-//                    exifOrientation = .up
-//                case .unknown:
-//                    exifOrientation = .up // default
-//                }
-//            }
-
-            
+    
             self.ssdPredictor.predict(pixelBuffer, orientation: exifOrientation) { predictions, error in
                 guard let predictions = predictions else {
                     return
@@ -255,34 +161,46 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                     CATransaction.begin()
                     CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
                     self.boundingBoxOverlay.sublayers = nil
+
+                    let realWidthLayerDim = fmax(self.view.layer.bounds.size.width, self.view.layer.bounds.size.height)
+                    let realWidthVideoDim = fmax(self.videoSize.width, self.videoSize.height)
+
+                    let realHeightLayerDim = fmin(self.view.layer.bounds.size.width, self.view.layer.bounds.size.height)
+                    let realHeightVideoDim = fmin(self.videoSize.width, self.videoSize.height)
+
+                    let xScale: CGFloat = realWidthLayerDim / realWidthVideoDim
+                    let yScale: CGFloat = realHeightLayerDim / realHeightVideoDim
+
+                    var scale = fmax(xScale, yScale)
+                    if scale.isInfinite {
+                        scale = 1.0
+                    }
+
                     let topKPredictions = predictions.prefix(MAX_BOXES)
                     for prediction in topKPredictions {
                         guard let label = prediction.labels.first else {
                             return
                         }
-                        
+
                         let objectBounds = VNImageRectForNormalizedRect(prediction.boundingBox, Int(self.videoSize.width), Int(self.videoSize.height))
-                        
+
                         let color = UIColor(red: 36/255, green: 101/255, blue: 255/255, alpha: 1.0)
                         let box = UIBoundingBox()
                         box.addToLayer(self.boundingBoxOverlay)
-                        let emoji = ["🤞", "✌️", "☝️", "👌", "🤘", "✋", "🖖", "🤙"]
-                        box.show(frame: objectBounds, label: emoji[(Int(label.identifier) ?? 1) - 1], color: color)
+                        box.show(frame: objectBounds, label: label.identifier, color: color, scale: scale)
                     }
-                    let xScale: CGFloat = self.view.layer.bounds.size.width / self.videoSize.width
-                    let yScale: CGFloat = self.view.layer.bounds.size.height / self.videoSize.height
-                    
-                    var scale = fmax(xScale, yScale)
-                    if scale.isInfinite {
-                        scale = 1.0
-                    }
-                    
+
                     CATransaction.begin()
                     CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
                     // rotate the layer into screen orientation and scale and mirror
-                    self.boundingBoxOverlay.setAffineTransform(CGAffineTransform(rotationAngle: 0.0).scaledBy(x: -scale, y: -scale))
+                    if exifOrientation == .left || exifOrientation == .right {
+                        self.boundingBoxOverlay.setAffineTransform(CGAffineTransform(rotationAngle: 0.0).scaledBy(x: -1.597, y: -2.845))
+                    } else {
+                        self.boundingBoxOverlay.setAffineTransform(CGAffineTransform(rotationAngle: 0.0).scaledBy(x: -scale, y: -scale))
+                    }
+
                     // center the layer
-                    
+
                     self.boundingBoxOverlay.position = CGPoint(x: self.view.layer.bounds.midX, y: self.view.layer.bounds.midY)
                     CATransaction.commit()
                     CATransaction.commit()
