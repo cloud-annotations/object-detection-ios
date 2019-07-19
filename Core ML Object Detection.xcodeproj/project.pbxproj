@@ -13,7 +13,7 @@
 		234EB2E3221FA7CA00B23265 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 234EB2E1221FA7CA00B23265 /* LaunchScreen.storyboard */; };
 		234EB2EB221FA9E600B23265 /* SSDPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2EA221FA9E600B23265 /* SSDPredictor.swift */; };
 		234EB2ED221FAA0D00B23265 /* UIBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2EC221FAA0D00B23265 /* UIBoundingBox.swift */; };
-		234EB2F0221FAAA600B23265 /* Model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 234EB2EF221FAAA600B23265 /* Model.mlmodel */; };
+		237105CC22E20D9A002684C2 /* Model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 237105CB22E20D9A002684C2 /* Model.mlmodel */; };
 		23E70283229C05C30021DDB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23E70281229C05C30021DDB8 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -26,7 +26,7 @@
 		234EB2E4221FA7CA00B23265 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		234EB2EA221FA9E600B23265 /* SSDPredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSDPredictor.swift; sourceTree = "<group>"; };
 		234EB2EC221FAA0D00B23265 /* UIBoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBoundingBox.swift; sourceTree = "<group>"; };
-		234EB2EF221FAAA600B23265 /* Model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Model.mlmodel; sourceTree = "<group>"; };
+		237105CB22E20D9A002684C2 /* Model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Model.mlmodel; path = ../../../../Desktop/thumbs/model_ios/Model.mlmodel; sourceTree = "<group>"; };
 		23E70282229C05C30021DDB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,7 +76,7 @@
 		234EB2EE221FAAA600B23265 /* model_ios */ = {
 			isa = PBXGroup;
 			children = (
-				234EB2EF221FAAA600B23265 /* Model.mlmodel */,
+				237105CB22E20D9A002684C2 /* Model.mlmodel */,
 			);
 			path = model_ios;
 			sourceTree = "<group>";
@@ -153,7 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				234EB2EB221FA9E600B23265 /* SSDPredictor.swift in Sources */,
-				234EB2F0221FAAA600B23265 /* Model.mlmodel in Sources */,
+				237105CC22E20D9A002684C2 /* Model.mlmodel in Sources */,
 				234EB2DB221FA7C800B23265 /* CameraViewController.swift in Sources */,
 				234EB2D9221FA7C800B23265 /* AppDelegate.swift in Sources */,
 				234EB2ED221FAA0D00B23265 /* UIBoundingBox.swift in Sources */,

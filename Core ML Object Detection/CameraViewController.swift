@@ -16,11 +16,18 @@ let DEFAULT_CAMERA_POSITION: AVCaptureDevice.Position = .front
 let MAX_BOXES: Int = 20
 
 class CameraViewController: UIViewController {
+    var array = [true, false]
+    var up = 1
+    var down = 1
+    let upLayer = CAShapeLayer()
+    let downLayer = CAShapeLayer()
     
     // MARK: - IBOutlets
     
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var debugImage: UIImageView!
+    @IBOutlet weak var upImage: UIImageView!
+    @IBOutlet weak var downImage: UIImageView!
     
     // MARK: - Variable Declarations
     
@@ -98,6 +105,33 @@ class CameraViewController: UIViewController {
         boundingBoxOverlay.bounds = CGRect(x: 0.0, y: 0.0, width: videoSize.width, height: videoSize.height)
         boundingBoxOverlay.position = CGPoint(x: view.layer.bounds.midX, y: view.layer.bounds.midY)
         view.layer.addSublayer(boundingBoxOverlay)
+        
+//        let total = self.array.count
+//        let up = self.array.filter{ $0 }.count
+//        let down = total - up
+        
+        let total = self.up + self.down
+        let up = self.up
+        let down = self.down
+        
+        let upPercent: CGFloat = CGFloat(up) / CGFloat(total)
+        let downPercent: CGFloat = CGFloat(down) / CGFloat(total)
+        
+        let totalViewWidth = view.bounds.width - 64 - 64
+        
+        let upWidth = upPercent * totalViewWidth
+        let downWidth = downPercent * totalViewWidth
+        
+        upLayer.path = UIBezierPath(roundedRect: CGRect(x: 64, y: 120, width: upWidth, height: 64), cornerRadius: 0).cgPath
+        upLayer.fillColor = UIColor.green.cgColor
+        
+        downLayer.path = UIBezierPath(roundedRect: CGRect(x: view.bounds.width - 64 - downWidth, y: 120, width: downWidth, height: 64), cornerRadius: 0).cgPath
+        downLayer.fillColor = UIColor.red.cgColor
+        
+        view.layer.addSublayer(upLayer)
+        view.layer.addSublayer(downLayer)
+        view.bringSubviewToFront(upImage)
+        view.bringSubviewToFront(downImage)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -131,12 +165,12 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         DispatchQueue.main.async {
             // Get a debug image.
-            let ciimage: CIImage = CIImage(cvPixelBuffer: pixelBuffer)
-            let context: CIContext = CIContext.init(options: nil)
-            let cgImage: CGImage = context.createCGImage(ciimage, from: ciimage.extent)!
-            let image: UIImage = UIImage.init(cgImage: cgImage)
-            self.debugImage.image = image
-            //
+//            let ciimage: CIImage = CIImage(cvPixelBuffer: pixelBuffer)
+//            let context: CIContext = CIContext.init(options: nil)
+//            let cgImage: CGImage = context.createCGImage(ciimage, from: ciimage.extent)!
+//            let image: UIImage = UIImage.init(cgImage: cgImage)
+//            self.debugImage.image = image
+           //
         
             let exifOrientation: CGImagePropertyOrientation
             
@@ -187,8 +221,40 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                         let color = UIColor(red: 36/255, green: 101/255, blue: 255/255, alpha: 1.0)
                         let box = UIBoundingBox()
                         box.addToLayer(self.boundingBoxOverlay)
-                        box.show(frame: objectBounds, label: label.identifier, color: color, scale: scale)
+                        
+                        if label.identifier == "up" {
+                            self.up = self.up + 1
+                            box.show(frame: objectBounds, label: "👍", color: color, scale: scale)
+//                            self.array.append(true)
+                        } else if label.identifier == "down" {
+                            self.down = self.down + 1
+                            box.show(frame: objectBounds, label: "👎", color: color, scale: scale)
+//                            self.array.append(false)
+                        }
+                        
+//                        if self.array.count > 1000 {
+//                            self.array.removeFirst()
+//                        }
                     }
+                    
+//                    let total = self.array.count
+//                    let up = self.array.filter{ $0 }.count
+//                    let down = total - up
+
+                    let total = self.up + self.down
+                    let up = self.up
+                    let down = self.down
+                    
+                    let upPercent: CGFloat = CGFloat(up) / CGFloat(total)
+                    let downPercent: CGFloat = CGFloat(down) / CGFloat(total)
+                    
+                    let totalViewWidth = self.view.bounds.width - 64 - 64
+                    
+                    let upWidth = upPercent * totalViewWidth
+                    let downWidth = downPercent * totalViewWidth
+                    
+                    self.upLayer.path = UIBezierPath(roundedRect: CGRect(x: 64, y: 120, width: upWidth, height: 64), cornerRadius: 0).cgPath
+                    self.downLayer.path = UIBezierPath(roundedRect: CGRect(x: self.view.bounds.width - 64 - downWidth, y: 120, width: downWidth, height: 64), cornerRadius: 0).cgPath
 
                     CATransaction.begin()
                     CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)

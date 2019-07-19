@@ -34,7 +34,9 @@ class UIBoundingBox {
     func show(frame: CGRect, label: String, color: UIColor, textColor: UIColor = .white, scale: CGFloat = 1.0) {
         CATransaction.setDisableActions(true)
         
-        textLayer.fontSize = 20 * (1 / scale)
+        let fontSize = 1.8 * frame.size.height * (1 / scale)
+        
+        textLayer.fontSize = fontSize
         shapeLayer.lineWidth = 3 * (1 / scale)
         
         
@@ -45,16 +47,17 @@ class UIBoundingBox {
         
         textLayer.string = label
         textLayer.foregroundColor = textColor.cgColor
-        textLayer.backgroundColor = color.cgColor
+//        textLayer.backgroundColor = color.cgColor
         textLayer.isHidden = false
         
         let attributes = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20 * (1 / scale))
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize)
         ]
         
         let textRect = label.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: attributes, context: nil)
         let textSize = CGSize(width: textRect.width + (6 * (1 / scale)), height: textRect.height)
-        let textOrigin = CGPoint(x: frame.origin.x + frame.size.width - textSize.width, y: frame.origin.y + frame.size.height + (3 * (1 / scale)))
+//        let textOrigin = CGPoint(x: frame.origin.x + frame.size.width - textSize.width, y: frame.origin.y + frame.size.height + (3 * (1 / scale)))
+        let textOrigin = CGPoint(x: frame.origin.x + ((frame.size.width - textSize.width) / 2), y: frame.origin.y + ((frame.size.height - textSize.height) / 2))
         textLayer.frame = CGRect(origin: textOrigin, size: textSize)
         
         textLayer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(.pi / 1.0)))

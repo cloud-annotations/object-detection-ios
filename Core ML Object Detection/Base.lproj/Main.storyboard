@@ -29,21 +29,33 @@
                                     <constraint firstAttribute="height" constant="100" id="Drn-yH-Zez"/>
                                 </constraints>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Down" translatesAutoresizingMaskIntoConstraints="NO" id="HEF-UU-2NV">
+                                <rect key="frame" x="172.5" y="0.0" width="202.5" height="299"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Up" translatesAutoresizingMaskIntoConstraints="NO" id="8dX-rJ-MVL">
+                                <rect key="frame" x="0.0" y="0.0" width="202.5" height="299"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ASR-Ja-eZM" secondAttribute="bottom" constant="20" id="C1E-Oj-dce"/>
+                            <constraint firstItem="HEF-UU-2NV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Ej0-h9-6Xn"/>
                             <constraint firstItem="QRi-ob-CYU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UOh-hY-yhZ"/>
                             <constraint firstItem="QRi-ob-CYU" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="bm9-qQ-87x"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ASR-Ja-eZM" secondAttribute="trailing" constant="20" id="ddN-Hg-jKm"/>
+                            <constraint firstItem="8dX-rJ-MVL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dsh-gX-5a1"/>
                             <constraint firstAttribute="trailing" secondItem="QRi-ob-CYU" secondAttribute="trailing" id="l6b-qf-qVO"/>
                             <constraint firstAttribute="bottom" secondItem="QRi-ob-CYU" secondAttribute="bottom" id="oeU-Rm-MDi"/>
+                            <constraint firstItem="8dX-rJ-MVL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qZd-zR-zmp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HEF-UU-2NV" secondAttribute="trailing" id="rJO-AP-ltx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="cameraView" destination="QRi-ob-CYU" id="sir-Vh-hHV"/>
                         <outlet property="debugImage" destination="ASR-Ja-eZM" id="1MG-Rk-PhD"/>
+                        <outlet property="downImage" destination="HEF-UU-2NV" id="OJh-TW-FqO"/>
+                        <outlet property="upImage" destination="8dX-rJ-MVL" id="f6P-ZE-Atz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -51,4 +63,8 @@
             <point key="canvasLocation" x="136.80000000000001" y="132.68365817091455"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Down" width="202.5" height="299"/>
+        <image name="Up" width="202.5" height="299"/>
+    </resources>
 </document>
